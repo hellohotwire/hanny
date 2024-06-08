@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html class="h-full">
+  <head>
+    <title>Hanny</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
+  </head>
+
+  <body class="bg-white text-slate-800 antialiased min-h-screen h-full accent-sky-500">
+    <%= render "shared/flash" %>
+    <%= render "shared/nav" %>
+    <%= yield %>
+
+  </body>
+</html>

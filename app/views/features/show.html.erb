@@ -1,0 +1,50 @@
+<div class="max-w-5xl rounded mx-auto px-4 mt-10">
+  <div class="grid grid-cols-1 md:grid-cols-12 bg-white">
+    <aside class="md:col-span-3 md:p-6">
+      <h3 class="font-semibold text-xs uppercase mb-3 -mx-3">Voters</h3>
+
+      <ul class="-mx-3 space-y-3">
+        <% @feature.voters.each do |voter| %>
+          <%= user_avatar_with_name(voter) %>
+        <% end %>
+      </ul>
+    </aside>
+
+    <div class="md:col-span-9 md:p-8">
+
+      <div class="flex items-center gap-6 mb-6">
+        <%= button_to "#", class: "btn btn-white !flex-col" do %>
+          <%= inline_svg_tag "arrow-up.svg", class: "size-3 stroke-current" %>
+          <span><%= @feature.votes.size %></span>
+        <% end %>
+
+        <div class="flex-1">
+          <h1 class="text-2xl font-semibold tracking-tight"><%= @feature.title %></h1>
+        </div>
+      </div>
+
+      <div class="my-2">
+        <%= user_avatar_with_name(@feature.user) %>
+      </div>
+
+      <div class="prose mb-16">
+        <%= simple_format @feature.description %>
+      </div>
+
+      <%# Comments %>
+      <div class="mb-6">
+        <%= render "comments/form", feature: @feature, comment: @comment %>
+      </div>
+
+      <h3 class="font-normal text-gray-500">Activity feed</h3>
+
+      <% if @feature.comments.any? %>
+        <%= render @feature.comments %>
+      <% else %>
+        <div class="text-center p-4 prose">
+          <p>No activity yet.</p>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
