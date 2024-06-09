@@ -73,3 +73,4 @@ end
 gem "name_of_person"
 gem "inline_svg"
 gem "devise", "~> 4.9"
+gem "pagy"

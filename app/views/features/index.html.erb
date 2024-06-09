@@ -19,33 +19,32 @@
       </ul>
     </aside>
 
-    <div class="md:col-span-9 md:p-8">
-      <h1 class="font-bold text-xl tracking-tight text-slate-800 mb-3">Features</h1>
+    <div class="md:col-span-9 md:px-8 md:pt-8 md:pb-32">
+      <h1 class="font-bold text-xl tracking-tight text-slate-800 mb-3 capitalize"><%= pluralize(Feature.all.size, 'feature') %></h1>
 
       <div class="rounded border mb-6">
         <%= render "features/form", feature: @feature %>
       </div>
 
       <div class="flex items-center gap-6 justify-between w-full bg-slate-50 rounded-t border p-4">
-        <div class="flex gap-3 items-center">
-          Showing <select class="form-select w-full">
-            <option  value="popular" selected>Popular</option>
-            <option value="new">New</option>
-            <option value="in_progress">In Progress</option>
-            <option value="done">Done</option>
-          </select>
-          posts
-        </div>
+        <%= form_with url: features_path, method: :get, class: "flex items-center gap-4 justify-between w-full" do %>
+          <div class="flex items-center gap-4">
+            Showing
+            <%= select_tag :status_filter, options_for_select(Feature.status_options, @status_filter), class: "form-select w-full", onchange: "this.form.submit();" %>
+            posts
+          </div>
 
-        <div>
-          <label for="search" class="sr-only">Search</label>
-          <input type="search" class="form-input" placeholder="Search">
-        </div>
+          <div>
+            <label for="search" class="sr-only">Search</label>
+            <%= search_field_tag :search, params[:search], id: "feature_search", class: "form-input w-full", placeholder: "Search..." %>
+          </div>
+        <% end %>
       </div>
 
       <div id="features" class="border-x border-b rounded-b divide-y">
         <%= render @features %>
       </div>
+      <%== pagy_nav(@pagy) if @pagy.pages > 1 %>
     </div>
   </div>
 </div>

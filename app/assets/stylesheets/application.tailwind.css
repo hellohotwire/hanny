@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-@import 'actiontext.css';
+@import "actiontext.css";
 
 @layer components {
   /* Forms */
@@ -65,5 +65,22 @@
 
   .btn-link {
     @apply text-blue-600 font-medium hover:text-blue-700;
+  }
+
+  .pagy {
+    @apply flex items-center gap-2 font-medium my-6;
+
+    a[aria-disabled="true"] {
+      @apply opacity-50 pointer-events-none;
+    }
+
+    a {
+      @apply rounded flex items-center justify-center size-8 hover:bg-gray-100;
+    }
+
+    a.current,
+    a.current[aria-disabled="true"] {
+      @apply bg-gray-100 opacity-100;
+    }
   }
 }

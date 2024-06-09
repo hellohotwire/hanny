@@ -6,4 +6,8 @@ class Feature < ApplicationRecord
   has_many :voters, through: :votes, source: :user
 
   enum status: { open: 0, in_progress: 1, done: 2}
+
+  def self.status_options
+    [['Popular', 'popular'], ['Oldest', 'old'], ['Newest', 'new']] + statuses.keys.map { |key| [key.to_s.humanize.titleize, key] }
+  end
 end

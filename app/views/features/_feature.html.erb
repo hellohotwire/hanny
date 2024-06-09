@@ -2,16 +2,22 @@
   <%= link_to feature, class: "flex-1" do %>
     <h3 class="font-semibold tracking-tight"><%= feature.title %></h3>
     <div class="prose mb-3">
-      <%= simple_format feature.description %>
+      <%= simple_format truncate(feature.description, length: 100) %>
     </div>
 
-    <div class="flex items-center gap-1.5 text-xs text-gray-600">
-      <%= inline_svg_tag "chat-bubble-oval-left.svg", class: "size-4 stroke-current text-gray-600" %>
-      <span><%= feature.comments.size %></span>
+    <div class="flex items-center gap-2">
+      <div class="flex items-center gap-1.5 text-xs text-gray-600">
+        <%= inline_svg_tag "chat-bubble-oval-left.svg", class: "size-4 stroke-current text-gray-600" %>
+        <span><%= feature.comments.size %></span>
+      </div>
+      <div class="text-[8px] text-gray-500">
+        &bull;
+      </div>
+      <div class="-top-px relative">
+        <%= feature_status(feature) %>
+      </div>
     </div>
+
   <% end %>
-  <%= button_to "#", class: "btn btn-white !flex-col" do %>
-    <%= inline_svg_tag "arrow-up.svg", class: "size-3 stroke-current" %>
-    <span><%= feature.votes.size %></span>
-  <% end %>
+  <%= render "votes/vote_button", feature: feature %>
 </div>

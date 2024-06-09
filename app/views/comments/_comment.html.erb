@@ -3,12 +3,25 @@
     <div class="rounded-full size-8 text-sm flex items-center justify-center font-semibold <%= ["bg-red-100", "bg-blue-100", "bg-green-100", "bg-pink-100", "bg-purple-100"].sample %>">
       <%= comment.user.first_name.first.upcase %>
     </div>
+
     <div class="flex-1 pt-1">
       <p class="font-semibold"><%= comment.user.name %></p>
 
       <div class="prose mt-1">
         <%= simple_format comment.content %>
       </div>
+
+      <!-- Reply Form -->
+      <div class="my-2">
+        <%= render "comments/reply_form", feature: comment.feature, comment: comment %>
+      </div>
+
+      <!-- Render replies recursively -->
+      <% if comment.replies.any? %>
+        <div class="mt-4 pl-6 border-l border-dashed border-gray-200/80">
+          <%= render partial: 'comments/comment', collection: comment.replies, as: :comment %>
+        </div>
+      <% end %>
     </div>
   </div>
 </div>

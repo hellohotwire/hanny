@@ -13,13 +13,11 @@
     <div class="md:col-span-9 md:p-8">
 
       <div class="flex items-center gap-6 mb-6">
-        <%= button_to "#", class: "btn btn-white !flex-col" do %>
-          <%= inline_svg_tag "arrow-up.svg", class: "size-3 stroke-current" %>
-          <span><%= @feature.votes.size %></span>
-        <% end %>
+        <%= render "votes/vote_button", feature: @feature %>
 
         <div class="flex-1">
           <h1 class="text-2xl font-semibold tracking-tight"><%= @feature.title %></h1>
+          <%= feature_status(@feature) %>
         </div>
       </div>
 
@@ -38,8 +36,8 @@
 
       <h3 class="font-normal text-gray-500">Activity feed</h3>
 
-      <% if @feature.comments.any? %>
-        <%= render @feature.comments %>
+      <% if @comments.any? %>
+        <%= render @comments %>
       <% else %>
         <div class="text-center p-4 prose">
           <p>No activity yet.</p>

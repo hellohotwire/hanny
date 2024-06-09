@@ -3,12 +3,16 @@ class FeaturesController < ApplicationController
   before_action :set_feature, only: %i[ show edit update destroy ]
 
   def index
-    @features = Feature.all
+    @status_filter = params[:status_filter] || 'all'
+    @search_query = params[:search]
+    @pagy, @features = pagy(FeatureFilter.new(Feature.where(nil), @status_filter, @search_query).filtered_features, items: 12)
+
     @feature = Feature.new
   end
 
   def show
     @comment = Comment.new
+    @comments = @feature.comments.where(parent_id: nil)
   end
 
   def new

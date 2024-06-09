@@ -4,8 +4,10 @@ Rails.application.routes.draw do
   get "up" => "rails/health#show", as: :rails_health_check
 
   resources :features do
-    resources :comments, only: [:create, :destroy]
-    post 'vote', to: 'features#vote'
+    resources :comments, only: [:create, :destroy] do
+      resources :comments, only: [:create], as: 'replies'
+    end
+    resources :votes, only: [:create]
   end
 
   root 'features#index'

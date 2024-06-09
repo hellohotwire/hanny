@@ -1,0 +1,11 @@
+<% unless feature.votes.exists?(user: current_user) %>
+  <%= button_to feature_votes_path(feature), class: "btn btn-white !flex-col" do %>
+    <%= inline_svg_tag "arrow-up.svg", class: "size-3 stroke-current" %>
+    <span><%= feature.votes.size %></span>
+  <% end %>
+<% else %>
+  <button class="btn btn-white !flex-col  disabled:opacity-70 disabled:pointer-events-none disabled:bg-gray-100 disabled:shadow-none" disabled>
+    <%= inline_svg_tag "arrow-up.svg", class: "size-3 stroke-current" %>
+    <span><%= feature.votes.size %></span>
+  </button>
+<% end %>

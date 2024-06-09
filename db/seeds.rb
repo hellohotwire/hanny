@@ -18,7 +18,7 @@ Vote.destroy_all
 Comment.destroy_all
 
 # Create 12 users
-users = 12.times.map do
+users = 24.times.map do
   User.create!(
     email: Faker::Internet.unique.email,
     password: 'password',
@@ -28,17 +28,17 @@ users = 12.times.map do
 end
 
 # Create 12 features
-features = 12.times.map do
+features = 24.times.map do
   Feature.create!(
     title: Faker::Lorem.sentence,
-    description: Faker::Lorem.paragraph,
+    description: Faker::Lorem.paragraphs(number: 3).join("\n\n"),
     status: Feature.statuses.keys.sample,
     user: users.sample
   )
 end
 
 # Create 12 votes
-12.times do
+24.times do
   Vote.create!(
     user: users.sample,
     feature: features.sample
@@ -46,7 +46,7 @@ end
 end
 
 # Create 12 comments
-12.times do
+24.times do
   Comment.create!(
     content: Faker::Lorem.sentence,
     user: users.sample,

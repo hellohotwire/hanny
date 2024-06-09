@@ -1,0 +1,8 @@
+<%= form_with(model: [feature, Comment.new(parent_id: comment.id)]) do |f| %>
+  <div class="mb-6">
+    <%= f.label :content, "Reply", class: "form-label" %>
+    <%= f.text_area :content, class: "form-input", placeholder: "Type a reply" %>
+  </div>
+  <%= f.hidden_field :parent_id, value: comment.id %>
+  <%= f.submit "Reply", class: "btn btn-primary" %>
+<% end %>
