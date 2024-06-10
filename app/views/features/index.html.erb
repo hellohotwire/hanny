@@ -27,24 +27,28 @@
       </div>
 
       <div class="flex items-center gap-6 justify-between w-full bg-slate-50 rounded-t border p-4">
-        <%= form_with url: features_path, method: :get, class: "flex items-center gap-4 justify-between w-full" do %>
+        <%= form_with url: features_path, method: :post, class: "flex items-center gap-4 justify-between w-full", data: { turbo_frame: "features", controller: "filter" } do %>
           <div class="flex items-center gap-4">
             Showing
-            <%= select_tag :status_filter, options_for_select(Feature.status_options, @status_filter), class: "form-select w-full", onchange: "this.form.submit();" %>
+            <%= select_tag :status_filter, options_for_select(Feature.status_options, @status_filter), class: "form-select w-full", data: { action: "change->filter#submitForm" } %>
             posts
           </div>
 
           <div>
             <label for="search" class="sr-only">Search</label>
-            <%= search_field_tag :search, params[:search], id: "feature_search", class: "form-input w-full", placeholder: "Search..." %>
+            <%= search_field_tag :search, params[:search], id: "feature_search", class: "form-input w-full", placeholder: "Search...", data: { action: "input->filter#submitForm" } %>
           </div>
         <% end %>
       </div>
 
-      <div id="features" class="border-x border-b rounded-b divide-y">
-        <%= render @features %>
-      </div>
+      <%= turbo_frame_tag "features" do %>
+        <div class="border-x border-b rounded-b divide-y">
+          <%= render @features %>
+        </div>
+      <% end %>
+
       <%== pagy_nav(@pagy) if @pagy.pages > 1 %>
+
     </div>
   </div>
 </div>

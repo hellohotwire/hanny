@@ -5,9 +5,14 @@ class FeaturesController < ApplicationController
   def index
     @status_filter = params[:status_filter] || 'all'
     @search_query = params[:search]
-    @pagy, @features = pagy(FeatureFilter.new(Feature.where(nil), @status_filter, @search_query).filtered_features, items: 12)
+    @pagy, @features = pagy(FeatureFilter.new(Feature.where(nil), @status_filter, @search_query).filtered_features)
 
     @feature = Feature.new
+
+    respond_to do |format|
+      format.turbo_stream
+      format.html
+    end
   end
 
   def show

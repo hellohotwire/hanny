@@ -4,6 +4,10 @@ Rails.application.routes.draw do
   get "up" => "rails/health#show", as: :rails_health_check
 
   resources :features do
+    collection do
+      post :index
+    end
+
     resources :comments, only: [:create, :destroy] do
       resources :comments, only: [:create], as: 'replies'
     end

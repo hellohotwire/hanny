@@ -15,8 +15,6 @@ class FeatureFilter
 
   def apply_filter
     case @filter
-    when 'popular'
-      @features.sort_by { |feature| -feature.votes.count }
     when 'new'
       @features.order(created_at: :desc)
     when 'old'
@@ -34,9 +32,9 @@ class FeatureFilter
 
   def apply_search(features)
     if @search_query.present?
-      @features.where("title LIKE :query OR description LIKE :query", query: "%#{@search_query}%")
+      features.where("title LIKE :query OR description LIKE :query", query: "%#{@search_query}%")
     else
-      @features
+      features
     end
   end
 end
