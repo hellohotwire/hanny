@@ -8,7 +8,7 @@ Rails.application.routes.draw do
       post :index
     end
 
-    resources :comments, only: [:create, :destroy] do
+    resources :comments, only: [:create, :destroy, :edit, :update] do
       resources :comments, only: [:create], as: 'replies'
     end
     resources :votes, only: [:create]

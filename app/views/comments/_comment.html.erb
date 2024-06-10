@@ -1,4 +1,4 @@
-<div id="<%= dom_id(comment) %>" class="py-4">
+<div class="py-4" id="<%= dom_id(comment)%>_container">
   <div class="flex items-start gap-4">
     <div class="rounded-full size-8 text-sm flex items-center justify-center font-semibold <%= ["bg-red-100", "bg-blue-100", "bg-green-100", "bg-pink-100", "bg-purple-100"].sample %>">
       <%= comment.user.first_name.first.upcase %>
@@ -7,9 +7,16 @@
     <div class="flex-1 pt-1">
       <p class="font-semibold"><%= comment.user.name %></p>
 
-      <div class="prose mt-1">
-        <%= simple_format comment.content %>
-      </div>
+      <%= turbo_frame_tag dom_id(comment) do %>
+        <div class="prose mt-1 mb-3">
+          <%= simple_format comment.content %>
+        </div>
+
+        <div class="flex items-center font-medium gap-3 mb-3">
+          <%= link_to "Edit", edit_feature_comment_path(comment.feature, comment), class: "underline" %>
+          <%= button_to "Delete", feature_comment_path(comment.feature, comment), method: :delete, class: "underline" %>
+        </div>
+      <% end %>
 
       <!-- Reply Form -->
       <div class="my-2">

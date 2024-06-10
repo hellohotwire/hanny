@@ -1,0 +1,7 @@
+<%= turbo_stream.append("#{dom_id(@feature)}_comments") do %>
+  <%= render partial: "comments/comment", locals: { comment: @comment } %>
+<% end %>
+
+<%= turbo_stream.replace("#{dom_id(@feature)}_comments_form") do %>
+  <%= render partial: "comments/form", locals: { comment: Comment.new, feature: @feature } %>
+<% end %>
