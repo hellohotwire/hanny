@@ -1,5 +1,5 @@
 <div id="<%= dom_id feature %>" class="p-4 hover:bg-slate-50 flex items-start gap-6">
-  <%= link_to feature, class: "flex-1" do %>
+  <%= link_to feature, class: "flex-1", target: :_top do %>
     <h3 class="font-semibold tracking-tight"><%= feature.title %></h3>
     <div class="prose mb-3">
       <%= simple_format truncate(feature.description, length: 100) %>
