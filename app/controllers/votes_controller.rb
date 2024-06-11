@@ -7,9 +7,13 @@ class VotesController < ApplicationController
 
     respond_to do |format|
       if @vote.save
-        format.html { redirect_to @feature, notice: 'Thanks for voting!' }
+        flash.now[:notice] = "Vote casted successfully"
+        format.html { redirect_to @feature }
+        format.turbo_stream
       else
-        format.html { redirect_to @feature, alert: 'You have already voted for this feature.' }
+        flash.now[:alert] = "You have already voted for this feature"
+        format.html { redirect_to @feature }
+        format.turbo_stream
       end
     end
   end

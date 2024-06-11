@@ -8,13 +8,15 @@ class CommentsController < ApplicationController
     @nesting_level = @comment.parent ? 1 : 0
 
     if @comment.save
+      flash.now[:notice] = "Comment was successfully created"
       respond_to do |format|
-        format.html { redirect_to @feature, notice: 'Comment was successfully created.' }
+        format.html { redirect_to @feature }
         format.turbo_stream
       end
     else
+      flash.now[:alert] = "Failed to add comment"
       respond_to do |format|
-        format.html { redirect_to @feature, alert: 'Failed to add comment.' }
+        format.html { redirect_to @feature }
         format.turbo_stream
       end
     end
@@ -25,22 +27,28 @@ class CommentsController < ApplicationController
 
   def update
     if @comment.update(comment_params)
-      redirect_to @feature, notice: 'Comment was successfully updated.'
+      respond_to do |format|
+        format.html { redirect_to @feature, notice: "Comment was successfully updated." }
+      end
     else
-      redirect_to @feature, alert: 'Failed to update comment'
+      respond_to do |format|
+        format.html { redirect_to @feature, alert: "Failed to update comment." }
+      end
     end
   end
 
   def destroy
     @comment.destroy
-
+    flash.now[:notice] = "Comment was successfully deleted"
     respond_to do |format|
-      format.html { redirect_to @feature, notice: 'Comment was successfully destroyed.' }
+      format.html { redirect_to @feature }
       format.turbo_stream do
-        render turbo_stream: turbo_stream.remove("comment_#{@comment.id}_container")
+        render turbo_stream: [
+          turbo_stream.update("flash", partial: "shared/flash"),
+          turbo_stream.remove("comment_#{@comment.id}_container")
+        ]
       end
     end
-
   end
 
   private

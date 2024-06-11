@@ -1,11 +1,10 @@
-<% if notice %>
-  <div class="bg-gradient-to-br from-sky-700 to-sky-600 text-white text-center py-2 z-50 relative" role="alert">
-    <p><%= sanitize notice %></p>
-  </div>
-<% end %>
-
-<% if alert %>
-  <div class="bg-gradient-to-br from-red-600 to-red-400 text-white text-center py-2 z-50 relative" role="alert">
-    <p><%= sanitize alert %></p>
+<% flash.each do |type, message| %>
+  <div data-controller="flash" data-flash-target="toast" class="fixed z-50 top-2 right-2 border rounded-md p-3 shadow-lg opacity-100 translate-x-full transition-transform ease-in-out duration-300 transform <%= type == :alert ? "bg-red-50 border-red-500/50 text-red-800" : "bg-white border-gray-300/90 text-gray-800" %>">
+    <div class="flex items-center justify-between gap-4">
+      <span><%= message %></span>
+      <button type="button" data-action="click->flash#dismiss" class="p-1 hover:bg-gray-100/70 flex items-center justify-center rounded-md">
+        <%= inline_svg_tag "x-mark.svg", class: "size-4 stroke-current text-gray-600 pointer-events-none" %>
+      </button>
+    </div>
   </div>
 <% end %>

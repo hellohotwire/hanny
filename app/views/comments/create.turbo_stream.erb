@@ -1,3 +1,5 @@
+<%= turbo_stream.update "flash", partial: "shared/flash" %>
+
 <% if @comment.errors.any? %>
   <%# Errors %>
   <% if @comment.parent.present? %>

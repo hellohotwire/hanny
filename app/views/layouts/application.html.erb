@@ -11,7 +11,7 @@
   </head>
 
   <body class="bg-white text-slate-800 antialiased min-h-screen h-full accent-sky-500">
-    <%= render "shared/flash" %>
+    <%= turbo_frame_tag "flash" %>
     <%= render "shared/nav" %>
     <%= yield %>
 
