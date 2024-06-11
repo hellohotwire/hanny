@@ -1,4 +1,6 @@
 class Comment < ApplicationRecord
+  broadcasts_refreshes_to :feature
+
   belongs_to :user
   belongs_to :feature
 

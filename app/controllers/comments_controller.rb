@@ -11,13 +11,11 @@ class CommentsController < ApplicationController
       flash.now[:notice] = "Comment was successfully created"
       respond_to do |format|
         format.html { redirect_to @feature }
-        format.turbo_stream
       end
     else
       flash.now[:alert] = "Failed to add comment"
       respond_to do |format|
         format.html { redirect_to @feature }
-        format.turbo_stream
       end
     end
   end
@@ -42,12 +40,6 @@ class CommentsController < ApplicationController
     flash.now[:notice] = "Comment was successfully deleted"
     respond_to do |format|
       format.html { redirect_to @feature }
-      format.turbo_stream do
-        render turbo_stream: [
-          turbo_stream.update("flash", partial: "shared/flash"),
-          turbo_stream.remove("comment_#{@comment.id}_container")
-        ]
-      end
     end
   end
 

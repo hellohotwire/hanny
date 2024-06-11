@@ -31,16 +31,15 @@
 
       <%# Comments %>
       <div class="mb-6">
-        <%= turbo_frame_tag "#{dom_id(@feature)}_comments_form" do %>
-          <%= render "comments/form", feature: @feature, comment: Comment.new %>
-        <% end %>
+        <%= render "comments/form", feature: @feature, comment: Comment.new %>
       </div>
 
       <h3 class="font-normal text-gray-500">Activity feed</h3>
 
-      <%= turbo_frame_tag "#{dom_id(@feature)}_comments" do %>
-        <%= render @comments %>
-      <% end %>
+      <%= turbo_stream_from @feature %>
+
+      <%= render @comments %>
+
     </div>
   </div>
 </div>

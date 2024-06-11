@@ -8,12 +8,14 @@
 
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
+
+    <%= turbo_refreshes_with method: :morph, scroll: :preserve %>
+    <%= yield :head %>
   </head>
 
   <body class="bg-white text-slate-800 antialiased min-h-screen h-full accent-sky-500">
     <%= turbo_frame_tag "flash" %>
     <%= render "shared/nav" %>
     <%= yield %>
-
   </body>
 </html>

@@ -13,11 +13,12 @@
         </div>
 
         <% if comment.persisted? && comment.user == current_user %>
-          <div class="flex items-center font-medium gap-3 mb-3">
-            <%= link_to "Edit", edit_feature_comment_path(comment.feature, comment), class: "underline" %>
-            <%= button_to "Delete", feature_comment_path(comment.feature, comment), method: :delete, class: "underline" %>
-          </div>
+          <%= link_to "Edit", edit_feature_comment_path(comment.feature, comment), class: "underline font-medium" %>
         <% end %>
+      <% end %>
+
+      <% if comment.persisted? && comment.user == current_user %>
+        <%= button_to "Delete", feature_comment_path(comment.feature, comment), method: :delete, class: "underline font-medium mb-6" %>
       <% end %>
 
       <!-- Reply Form -->
@@ -25,18 +26,14 @@
         <div data-controller="toggle">
           <button class="btn btn-white btn-sm" data-toggle-target="btn" data-action="click->toggle#toggle">Reply</button>
           <div class="hidden" data-toggle-target="toggleable">
-            <%= turbo_frame_tag "#{dom_id(comment)}_reply_form" do %>
-              <%= render "comments/reply_form", feature: comment.feature, comment: comment %>
-            <% end %>
+            <%= render "comments/reply_form", feature: comment.feature, comment: comment %>
           </div>
         </div>
       <% end %>
 
       <!-- Render replies recursively -->
       <div class="pl-4 mt-3 border-l border-dashed border-gray-300">
-        <%= turbo_frame_tag "#{dom_id(comment)}_reply_container" do %>
-          <%= render partial: 'comments/comment', collection: comment.replies, as: :comment, locals: { nesting_level: 1 }  %>
-        <% end %>
+        <%= render partial: 'comments/comment', collection: comment.replies, as: :comment, locals: { nesting_level: 1 }  %>
       </div>
     </div>
   </div>
