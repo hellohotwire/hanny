@@ -9,3 +9,6 @@ application.register("filter", FilterController)
 
 import HelloController from "./hello_controller"
 application.register("hello", HelloController)
+
+import ToggleController from "./toggle_controller"
+application.register("toggle", ToggleController)

@@ -5,6 +5,7 @@ class CommentsController < ApplicationController
 
   def create
     @comment = @feature.comments.build(comment_params.merge(user: current_user))
+    @nesting_level = @comment.parent ? 1 : 0
 
     if @comment.save
       respond_to do |format|
@@ -12,7 +13,10 @@ class CommentsController < ApplicationController
         format.turbo_stream
       end
     else
-      redirect_to @feature, alert: 'Failed to add comment.'
+      respond_to do |format|
+        format.html { redirect_to @feature, alert: 'Failed to add comment.' }
+        format.turbo_stream
+      end
     end
   end
 

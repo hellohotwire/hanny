@@ -1,8 +1,18 @@
 <%= form_with model: [feature, comment] do |f| %>
-  <div class="mb-6">
+  <div class="mb-3">
     <%= f.label :content, "Reply", class: "sr-only" %>
     <%= f.text_area :content, class: "form-input", placeholder: "Type a response" %>
   </div>
+
+  <% if f.object.errors.any? %>
+    <div class="text-red-500 pb-3 text-sm">
+      <ul>
+        <% f.object.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
 
   <%= f.submit class: "btn btn-primary" %>
 <% end %>

@@ -1,7 +1,33 @@
-<%= turbo_stream.append("#{dom_id(@feature)}_comments") do %>
-  <%= render partial: "comments/comment", locals: { comment: @comment } %>
-<% end %>
+<% if @comment.errors.any? %>
+  <%# Errors %>
+  <% if @comment.parent.present? %>
+    <%= turbo_stream.replace("comment_#{@comment.parent.id}_reply_form", status: :unprocessable_entity) do %>
+      <%= render partial: "comments/reply_form", locals: { feature: @comment.feature, comment: @comment } %>
+    <% end %>
+  <% else %>
+    <%= turbo_stream.replace("#{dom_id(@feature)}_comments_form", status: :unprocessable_entity) do %>
+      <%= render partial: "comments/form", locals: { feature: @comment.feature, comment: @comment } %>
+    <% end %>
+  <% end %>
+<% else %>
+  <%# Success %>
+  <% if @comment.parent_id.present? %>
+    <% parent_comment = @comment.parent %>
+    <%= turbo_stream.append("#{dom_id(parent_comment)}_reply_container") do %>
+      <%= render partial: 'comments/comment', locals: { comment: @comment, nesting_level: 1 } %>
+    <% end %>
 
-<%= turbo_stream.replace("#{dom_id(@feature)}_comments_form") do %>
-  <%= render partial: "comments/form", locals: { comment: Comment.new, feature: @feature } %>
+    <%= turbo_stream.update("#{dom_id(parent_comment)}_reply_form") do %>
+      <%= render "comments/reply_form", feature: @comment.feature, comment: @comment %>
+    <% end %>
+
+  <% else %>
+    <%= turbo_stream.append("#{dom_id(@feature)}_comments") do %>
+      <%= render partial: "comments/comment", locals: { comment: @comment, nesting_level: 0 } %>
+    <% end %>
+
+    <%= turbo_stream.replace("#{dom_id(@feature)}_comments_form") do %>
+      <%= render partial: "comments/form", locals: { comment: Comment.new, feature: @feature } %>
+    <% end %>
+  <% end %>
 <% end %>

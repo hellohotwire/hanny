@@ -12,23 +12,32 @@
           <%= simple_format comment.content %>
         </div>
 
-        <div class="flex items-center font-medium gap-3 mb-3">
-          <%= link_to "Edit", edit_feature_comment_path(comment.feature, comment), class: "underline" %>
-          <%= button_to "Delete", feature_comment_path(comment.feature, comment), method: :delete, class: "underline" %>
-        </div>
+        <% if comment.persisted? && comment.user == current_user %>
+          <div class="flex items-center font-medium gap-3 mb-3">
+            <%= link_to "Edit", edit_feature_comment_path(comment.feature, comment), class: "underline" %>
+            <%= button_to "Delete", feature_comment_path(comment.feature, comment), method: :delete, class: "underline" %>
+          </div>
+        <% end %>
       <% end %>
 
       <!-- Reply Form -->
-      <div class="my-2">
-        <%= render "comments/reply_form", feature: comment.feature, comment: comment %>
-      </div>
-
-      <!-- Render replies recursively -->
-      <% if comment.replies.any? %>
-        <div class="mt-4 pl-6 border-l border-dashed border-gray-200/80">
-          <%= render partial: 'comments/comment', collection: comment.replies, as: :comment %>
+      <% if comment.nesting_level < Comment::MAX_NESTING_LEVEL %>
+        <div data-controller="toggle">
+          <button class="btn btn-white btn-sm" data-toggle-target="btn" data-action="click->toggle#toggle">Reply</button>
+          <div class="hidden" data-toggle-target="toggleable">
+            <%= turbo_frame_tag "#{dom_id(comment)}_reply_form" do %>
+              <%= render "comments/reply_form", feature: comment.feature, comment: comment %>
+            <% end %>
+          </div>
         </div>
       <% end %>
+
+      <!-- Render replies recursively -->
+      <div class="pl-4 mt-3 border-l border-dashed border-gray-300">
+        <%= turbo_frame_tag "#{dom_id(comment)}_reply_container" do %>
+          <%= render partial: 'comments/comment', collection: comment.replies, as: :comment, locals: { nesting_level: 1 }  %>
+        <% end %>
+      </div>
     </div>
   </div>
 </div>
