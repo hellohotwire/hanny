@@ -1,24 +1,7 @@
-# README
+# Hanny 
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+[hellohotwire.com](https://hellohotwire.com)
 
-Things you may want to cover:
+Hanny is a Hotwire-enabled Ruby on Rails application inspired by canny.io. This build-along aims to recreate similar features you might find in that application. 
 
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+Get ready to explore powerful features like feature voting, feature filtering, user comments, search, and more. We’ll harness the full potential of Hotwire and other Ruby on Rails framework features to create real-time interactions, empowering you to build robust applications without relying heavily on JavaScript frameworks.
